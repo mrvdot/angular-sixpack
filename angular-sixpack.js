@@ -43,7 +43,7 @@
         angular.extend(_opts, options || {});
       }
 
-      this.$get = ['$cookies','$log', function($cookies, $log) {
+      this.$get = ['$cookies','$timeout', '$log', function($cookies, $timeout, $log) {
         var _cookiePrefix = 'sixpack-'
           , _session
           , _clientId;
@@ -77,7 +77,9 @@
                 if (_opts.debug) {
                   $log.warn('[sixpack] Received error', err);
                 };
-                callback(false);
+                $timeout(function () {
+                  callback(false);
+                });
                 return;
               };
               var choice = res.alternative.name;
@@ -85,7 +87,9 @@
                 $log.info('[sixpack] Alternative chosen:', choice);
                 $log.debug('[sixpack] Full response', res);
               };
-              callback(choice);
+              $timeout(function() {
+                callback(choice, res);
+              });
             });
           },
           // Register a 'conversion'. If no testName, will call for all active tests
@@ -108,7 +112,11 @@
                     if (_opts.debug) {
                       $log.debug('[sixpack] All results:', results);
                     };
-                    callback && callback(results);
+                    if (callback) {
+                      $timeout(function () {
+                        callback(results);
+                      });
+                    }
                   };
                 });
               }
@@ -122,7 +130,11 @@
                 } else if (_opts.debug) {
                   $log.debug('[sixpack] Conversion result:', res);
                 };
-                callback && callback(res);
+                if (callback) {
+                  $timeout(function () {
+                    callback(res);
+                  });
+                }
               });
             }
           }
