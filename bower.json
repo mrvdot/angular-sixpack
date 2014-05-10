@@ -1,0 +1,27 @@
+{
+  "name": "angular-sixpack",
+  "version": "0.0.0",
+  "authors": [
+    "Alex Vanston <alex@mrvdot.com>"
+  ],
+  "description": "Angular service to integrate with Sixpack JS Client",
+  "keywords": [
+    "angular",
+    "sixpack",
+    "testing",
+    "a-b",
+    "experiment"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.x",
+    "angular-cookies": "~1.2.x"
+  }
+}
