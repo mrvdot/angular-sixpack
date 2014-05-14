@@ -33,11 +33,12 @@
 
   angular.module('mvdSixpack', ['ngCookies'])
     .provider('sixpack', function() {
-      var _tests = []
+      var $body
+        , _tests = []
         , _opts = {
           baseUrl: '',
           debug: false,
-        };
+        }
 
       this.setOptions = function (options) {
         angular.extend(_opts, options || {});
@@ -87,6 +88,10 @@
                 $log.info('[sixpack] Alternative chosen:', choice);
                 $log.debug('[sixpack] Full response', res);
               };
+              if (!$body) {
+                $body = angular.element('body');
+              };
+              $body.addClass('sixpack-'+testName+' sixpack-'+testName+'-'+choice);
               $timeout(function() {
                 callback(choice, res);
               });
