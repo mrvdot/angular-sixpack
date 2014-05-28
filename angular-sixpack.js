@@ -210,7 +210,7 @@
       }
     }])
     // Register a variation for a test
-    .directive('sixpackWhen', function ($log) {
+    .directive('sixpackWhen', ['$log', function ($log) {
       return {
         require: '^sixpackSwitch',
         transclude: 'element',
@@ -222,7 +222,7 @@
           }
         }
       }
-    })
+    }])
     // Register the 'default view, registered as the control variation, and 
     // always used if sixpack errors out or if user is excluded via configuration
     .directive('sixpackDefault', function () {
@@ -234,7 +234,7 @@
         }
       }
     })
-    .directive('sixpackConvert', function (sixpack) {
+    .directive('sixpackConvert', ['sixpack', function (sixpack) {
       return {
         link : function ($scope, $element, $attrs) {
           var test = $attrs.sixpackConvert || undefined
@@ -245,5 +245,5 @@
           });
         }
       }
-    });
+    }]);
 })(window.angular, window.sixpack);
