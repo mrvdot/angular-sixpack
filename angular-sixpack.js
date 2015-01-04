@@ -169,7 +169,7 @@
               return;
             };
             fn(function(clone) {
-              $element.html(clone);
+              $element.replaceWith(clone);
             });
           }
 
