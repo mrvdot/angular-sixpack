@@ -89,7 +89,7 @@
                 $log.debug('[sixpack] Full response', res);
               };
               if (!$body) {
-                $body = angular.element('body');
+                $body = angular.element(document).find('body');
               };
               $body.addClass('sixpack-'+testName+' sixpack-'+testName+'-'+choice);
               $timeout(function() {
