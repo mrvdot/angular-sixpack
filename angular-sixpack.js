@@ -1,4 +1,4 @@
-(function(angular, sp) {
+(function(angular) {
   // Just in case...
   if (!Array.prototype.indexOf) {
     Array.prototype.indexOf = function (searchElement, fromIndex) {
@@ -39,6 +39,7 @@
           baseUrl: '',
           debug: false,
         }
+        , sp = window.sixpack;
 
       this.setOptions = function (options) {
         angular.extend(_opts, options || {});
@@ -246,4 +247,4 @@
         }
       }
     }]);
-})(window.angular, window.sixpack);
+})(window.angular);
