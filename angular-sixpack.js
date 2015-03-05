@@ -35,6 +35,7 @@
     .provider('sixpack', function() {
       var $body
         , _tests = []
+        , _choices = {}
         , _opts = {
           baseUrl: '',
           debug: false,
@@ -50,7 +51,7 @@
           , _session
           , _clientId;
 
-        _getOrInitSession = function () {
+        var _getOrInitSession = function () {
           if (!_session) {
             if (_clientId = $cookies[_cookiePrefix + 'clientId']) {
               _session = new sp.Session(_clientId, _opts.baseUrl);
@@ -65,11 +66,28 @@
           return _session;
         }
 
-        return {
+        var methods = {
           participate : function (testName, variations, callback) {
             if (_tests.indexOf(testName) < 0) {
               _tests.push(testName);
-            };
+            } else if (angular.isDefined(_choices[testName])) {
+              var res = _choices[testName];
+              if (res === false) {
+                // Still loading
+                $timeout(function () {
+                  methods.participate(testName, variations, callback);
+                }, 50);
+                return;
+              };
+              if (_opts.debug) {
+                $log.info('[sixpack] Using already chosen variation for test', testName, res);
+              };
+              $timeout(function () {
+                callback(res.alternative.name, res);
+              });
+              return;
+            }
+            _choices[testName] = false;
             var session = _getOrInitSession();
             if (_opts.debug) {
               $log.info('[sixpack] Getting choice for', testName, 'out of', variations);
@@ -82,8 +100,10 @@
                 $timeout(function () {
                   callback(false);
                 });
+                delete _choices[testName];
                 return;
               };
+              _choices[testName] = res;
               var choice = res.alternative.name;
               if (_opts.debug) {
                 $log.info('[sixpack] Alternative chosen:', choice);
@@ -145,6 +165,8 @@
             }
           }
         }
+
+        return methods;
       }];
     })
     .directive('sixpackSwitch', ['sixpack', function(sixpack) {
@@ -224,7 +246,7 @@
         }
       }
     }])
-    // Register the 'default view, registered as the control variation, and 
+    // Register the 'default view, registered as the control variation, and
     // always used if sixpack errors out or if user is excluded via configuration
     .directive('sixpackDefault', function () {
       return {
