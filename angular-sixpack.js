@@ -110,7 +110,7 @@
                 $log.debug('[sixpack] Full response', res);
               };
               if (!$body) {
-                $body = angular.element('body');
+                $body = angular.element(document).find('body');
               };
               $body.addClass('sixpack-'+testName+' sixpack-'+testName+'-'+choice);
               $timeout(function() {
@@ -192,7 +192,7 @@
               return;
             };
             fn(function(clone) {
-              $element.html(clone);
+              $element.replaceWith(clone);
             });
           }
 
@@ -269,4 +269,4 @@
         }
       }
     }]);
-})(window.angular);
+})(window.angular, window.sixpack);
