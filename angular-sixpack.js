@@ -51,13 +51,26 @@
           , _session
           , _clientId;
 
+        var _getCookie = function (key) {
+          if ($cookies[key]) {
+            return $cookies[key]; // Pre Angular 1.4
+          } else {
+            return $cookies.get(key); // Angular 1.4+
+          }
+        }
+
+        var _setCookie = function (key, value) {
+          $cookies[key] = value; // Pre Angular 1.4
+          $cookies.put(key, value); // Angular 1.4+
+        }
+
         var _getOrInitSession = function () {
           if (!_session) {
-            if (_clientId = $cookies[_cookiePrefix + 'clientId']) {
+            if (_clientId = _getCookie(_cookiePrefix + 'clientId');) {
               _session = new sp.Session(_clientId, _opts.baseUrl);
             } else {
               _session = new sp.Session(undefined, _opts.baseUrl);
-              $cookies[_cookiePrefix + 'clientId'] = _clientId = _session.client_id;
+              _setCookie(_cookiePrefix + 'clientId', _clientId = _session.client_id);
             }
             if (_opts.debug) {
               $log.debug('[sixpack] Initialized session with clientId', _clientId, 'and base url', _opts.baseUrl);
