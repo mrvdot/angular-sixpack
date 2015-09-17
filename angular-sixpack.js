@@ -52,16 +52,19 @@
           , _clientId;
 
         var _getCookie = function (key) {
-          if ($cookies[key]) {
-            return $cookies[key]; // Pre Angular 1.4
-          } else {
+          if (angular.isFunction($cookies.get)) {
             return $cookies.get(key); // Angular 1.4+
+          } else {
+            return $cookies[key]; // Pre Angular 1.4
           }
         }
 
         var _setCookie = function (key, value) {
-          $cookies[key] = value; // Pre Angular 1.4
-          $cookies.put(key, value); // Angular 1.4+
+          if (angular.isFunction($cookies.put)) {
+            $cookies.put(key, value); // Angular 1.4+
+          } else {
+            $cookies[key] = value; // Pre Angular 1.4
+          }
         }
 
         var _getOrInitSession = function () {
