@@ -35,21 +35,21 @@ Angular Sixpack provides a service and a few helper directives to handle the mos
 This directive is modeled off the standard `ng-switch` setup, so integration should feel familiar. A basic test can be easily set up as demoed below:
 
 ```
-<div sixpack-switch="myFirstTest">
+<div sixpack-switch="my_first_test">
    <h1 sixpack-default>My control header</h1>
    <h1 sixpack-when="fancy">My classy header</h1>
    <h1 sixpack-when="boring">Definitely exciting here</h1>
 </div>
 ```
 
-This test will result in the sixpack server creating (or using, if it already exists) a test called "myFirstTest" with three varations, the "default" (which is registered as a control), and "fancy" and "boring" as alternatives. 
+This test will result in the sixpack server creating (or using, if it already exists) a test called "my_first_test" with three varations, the "default" (which is registered as a control), and "fancy" and "boring" as alternatives. 
 
 _It's important to note that if you use `sixpack-default` anywhere within the switch, it will be registered as the control. If you don't have a default, however, sixpack will still display the "first" one it receives as a control_
 
 ##### Convert
 In order to actually get any use out of the A/B testing setup, you'll want to be able to track conversions as well. Tracking a conversion is as simple as adding a `sixpack-convert` attribute to an element:
 ```
-<button type="submit" sixpack-convert="myFirstTest">Sign up!</button>
+<button type="submit" sixpack-convert="my_first_test">Sign up!</button>
 ```
 By default, this directive will bind to the click event on it's element (without affecting any other click handlers). If you'd prefer to bind to a different event, just use the `on` attribute (ie: `on="focus"`) as well. Additionally, if you pass a specific test through to the `sixpack-convert` attribute, the conversion will only be logged for that tests. You can optionally leave it blank and the module will log the conversion for every active test currently running.
 
