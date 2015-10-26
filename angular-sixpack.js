@@ -54,9 +54,9 @@
         var _getOrInitSession = function () {
           if (!_session) {
             if (_clientId = $cookies[_cookiePrefix + 'clientId']) {
-              _session = new sp.Session(_clientId, _opts.baseUrl);
+              _session = new sp.Session({client_id:_clientId, base_url:_opts.baseUrl});
             } else {
-              _session = new sp.Session(undefined, _opts.baseUrl);
+              _session = new sp.Session({client_id:undefined, base_url:_opts.baseUrl});
               $cookies[_cookiePrefix + 'clientId'] = _clientId = _session.client_id;
             }
             if (_opts.debug) {
